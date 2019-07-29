@@ -30,14 +30,21 @@ void getArray(String *myArray, int myLength) {
 }
 
 void loop() {
+  // lcd prompt
+  lcd.setCursor(0,0);  // cursor to first position first line
+  lcd.print("Wavelength [nm]: ");
   // send
   altSerial.write(":FETCh:WAVelength? \n");
   delay(10);
   // receive
   String myBuffer = String();
   getArray(&myBuffer, altSerial.available());
-  lcd.print(myBuffer);
+  // print to lcd, convert scientific notation to hundreds 
+  lcd.setCursor(3,1); // sets cursor to second line first row
+  lcd.print(myBuffer[0]);
+  lcd.print(myBuffer.substring(2,4));
+  lcd.print(".");
+  lcd.print(myBuffer.substring(4,8));
   delay(500);
   lcd.clear();
-
 }
